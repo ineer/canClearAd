@@ -48,3 +48,36 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 	chrome.pageAction.show(tabId);
 
 });
+filter = {
+	urls: [
+		'*://pos.baidu.com/*',
+		'*://cpro.baidustatic.com/*',
+		'*://dup.baidustatic.com/*',
+		'*://eclick.baidu.com/*',
+		'*://hm.baidu.com/*',
+		'*://push.zhanzhang.baidu.com/*',
+		'*://api.share.baidu.com/*',
+		'*://wn.pos.baidu.com/*',
+		'*://sp0.baidu.com/*',
+		'*://sp1.baidu.com/*',
+		'*://t12.baidu.com/*',
+		'*://t10.baidu.com/*',
+		'*://t11.baidu.com/*',
+		'*://bzclk.baidu.com/*',
+		'*://im-x.jd.com/*',
+		'*://static.360buyimg.com/*',
+		'*://img30.360buyimg.com/*',
+		'*://wn.x.jd.com/*',
+		'*://pagead2.googlesyndication.com/*',
+		'*://files.jb51.net/*',
+		'*://googleads.g.doubleclick.net/*',
+		'*://s0.2mdn.net/*',
+		'*://img.ads.csdn.net/*',
+		'*://ads.csdn.net/*',
+		'*://bj.bcebos.com/*'
+	]
+}
+
+chrome.webRequest.onBeforeRequest.addListener(function(request){
+    return {cancel: true};
+}, filter, ['blocking']);

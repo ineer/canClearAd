@@ -1,0 +1,57 @@
+/*!
+ * canClearAd v0.1.0
+ * Copyright 2016 Ineer
+ * Licensed under MIT (https://github.com/ineer/canclearad/blob/master/LICENSE)
+ */
+
+@charset "UTF-8";
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	width: 12rem;
+	font-size: 12px;
+	font-family: Arial;
+}
+a {
+	color: #f00;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+header {
+	display: flex;
+	width: 100%;
+	height: 2rem;
+	line-height: 2rem;
+	font-weight: bold;
+	border-bottom: .1rem solid #000;
+	box-shadow: 0 0 .5rem .2rem #333;
+}
+img {
+	margin-left: .3rem;
+	width: 2rem;
+	height: 2rem;
+}
+.logo {
+	flex: 1.5;
+	margin-left: .5rem;
+}
+.version {
+	flex: 1;
+	color: #666;
+}
+p {
+	margin: .5rem 0 0 1rem;
+}
+input {
+	margin: .5rem 0 0 .1rem;
+	width: 95%;
+}
+footer {
+	margin-top: .5rem;
+	padding: .5rem .1rem .5rem .6rem;
+	border-top: .1rem dashed #666;
+}

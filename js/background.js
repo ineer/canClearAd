@@ -74,7 +74,10 @@ filter = {
 		'*://s0.2mdn.net/*',
 		'*://img.ads.csdn.net/*',
 		'*://ads.csdn.net/*',
-		'*://bj.bcebos.com/*'
+		'*://bj.bcebos.com/*',
+		'*://player.letvcdn.com/1c02_p/*',
+		'*://imgcache.qq.com/tencentvideo_v1/player/MediaPlugin.swf*',
+		'*://imgcache.qq.com/tencentvideo_v1/player/partialup/MediaPlugin.swf*'
 	]
 }
 

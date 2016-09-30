@@ -75,9 +75,18 @@ filter = {
 		'*://img.ads.csdn.net/*',
 		'*://ads.csdn.net/*',
 		'*://bj.bcebos.com/*',
-		'*://player.letvcdn.com/1c02_p/*',
-		'*://imgcache.qq.com/tencentvideo_v1/player/MediaPlugin.swf*',
-		'*://imgcache.qq.com/tencentvideo_v1/player/partialup/MediaPlugin.swf*'
+		'*://irs01.net/MTFlashStore.swf',
+		'*://m.kejet.net/ms/16912/565f1f1c6.swf',
+		'*://stuff.cdn.biddingx.com/*',
+		'*://player.letvcdn.com/1c02_p/*', // 乐视广告
+		'*://imgcache.qq.com/tencentvideo_v1/player/MediaPlugin.swf*', // 腾讯广告
+		'*://imgcache.qq.com/tencentvideo_v1/player/partialup/MediaPlugin.swf*',
+		'*://imgcache.qq.com/tencentvideo_v1/playerv3/MediaPlugin.swf*',
+		'*://imgcache.qq.com/tencentvideo_v1/playerv3/partialup/MediaPlugin.swf*',
+		'*://pic.fastapi.net/sdk/fl/ku6/ku6sdk.swf*', // 酷6广告
+		'*://p.you.video.sina.com.cn/swf/sub/publicityPlayer20160913_V4_1_39_74.swf*',  // 新浪广告
+		'*://static.funshion.com/market/p2p/preroll/*', // 风行广告
+		'*://static.hd.baofeng.com/swf/player/material/swf/*' // 暴风广告
 	]
 }
 

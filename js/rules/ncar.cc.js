@@ -1,6 +1,5 @@
 // 移除规则
 // 符合规则的元素直接移除
-console.time('clearAdTime');
 var removeRule = [
 		['#toptb', 0],
 		['#ad_ld', 0],
@@ -24,7 +23,3 @@ if (ncarAd1) {
 		}
 	}
 }
-
-clearAd(removeRule, replaceRule);
-checkPageChange();
-console.timeEnd('clearAdTime');

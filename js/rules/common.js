@@ -1,6 +1,6 @@
 /*!
  * canClearAd v0.1.0
- * Copyright 2016 Ineer
+ * Copyright (c) 2016 Ineer
  * Licensed under MIT (https://github.com/ineer/canclearad/blob/master/LICENSE)
  */
 
@@ -52,4 +52,3 @@ var commonRule = [
 
 
 clearAd(commonRule, []);
-checkPageChange();

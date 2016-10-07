@@ -12,6 +12,3 @@ var removeRule = [
 var replaceRule = [
 		
 	];
-
-clearAd(removeRule, replaceRule);
-checkPageChange();

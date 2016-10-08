@@ -1,8 +1,6 @@
 # canClearAd
 一款全自动清除网站广告的Chrome扩展,支持通用广告,如百度推广或淘宝天猫等广告；也支持特定网站的广告清除。
 
-暂时发现了一种屏蔽视频广告的方法，但只适用于腾讯，乐视，新浪，酷6，风行，暴风等6家网站，正在寻求更多方法。
-
 ## 如何安装chrome扩展
 
 1. 从[github](https://github.com/ineer/canClearAd)下载本项目zip到本地；
@@ -22,14 +20,17 @@ canClearAd项目仅用于学习chrome extension开发使用，请勿将其用于
 
 ## 目标视频网站
 
-| Site | URL | 支持情况 |
-| :--: | :-- | :-----: |
-| 腾讯视频 | <http://v.qq.com/> |✓|
-| 乐视视频 | <http://www.le.com/> |✓|
-| 新浪视频 | <http://video.sina.com.cn/> |✓|
-| 风行视频 | <http://www.fun.tv/> |✓|
-| 暴风视频 | <http://www.baofeng.com/> |✓|
-| 酷6视频 | <http://www.ku6.com/> |✓|
+| Site | URL | 支持情况 | 采用方式 |
+| :--: | :-- | :-----: | :-----: |
+| 腾讯视频 | <http://v.qq.com/> |✓| 跳过 |
+| 乐视视频 | <http://www.le.com/> |✓| 跳过 |
+| 新浪视频 | <http://video.sina.com.cn/> |✓| 跳过 |
+| 风行视频 | <http://www.fun.tv/> |✓| 跳过 |
+| 暴风视频 | <http://www.baofeng.com/> |✓| 跳过 |
+| 酷6视频 | <http://www.ku6.com/> |✓| 跳过 |
+| 凤凰视频 | <http://v.ifeng.com/> |✓| 跳过 |
+| 爱奇异视频 | <http://www.iqiyi.cn/> |✓| 加速 |
+| 土豆视频 | <http://www.tudou.com/> |✓| HTML5 |
 
 ## 作者
 

@@ -14,6 +14,7 @@ var webRule = ['baidu.com'
 		,'csdn.net'
 		,'ncar.cc'
 		,'icoolxue.com'
+	        ,'iqiyi.com'
 	];
 
 var webpage  = document.getElementById('webpage');
@@ -96,13 +97,13 @@ filter1 = {
 		,'http://static.xyimg.net/*'
 
 	]
-}
+};
 filter2 = {
 	urls: [
 		 '*://*.iqiyi.com/v_*.html'
 		,'*://www.tudou.com/*'
 	]
-}
+};
 
 chrome.webRequest.onBeforeRequest.addListener(function(request) {
     return {cancel: true};

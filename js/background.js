@@ -85,6 +85,7 @@ filter1 = {
 		,'*://m.kejet.net/ms/16912/565f1f1c6.swf'
 		,'*://stuff.cdn.biddingx.com/*'
 		,'*://player.letvcdn.com/1c02_p/*' // 乐视广告
+		,'*://player.letvcdn.com/lc02_p/*'
 		,'*://imgcache.qq.com/tencentvideo_v1/player/MediaPlugin.swf*' // 腾讯广告
 		,'*://imgcache.qq.com/tencentvideo_v1/player/partialup/MediaPlugin.swf*'
 		,'*://imgcache.qq.com/tencentvideo_v1/playerv3/MediaPlugin.swf*'

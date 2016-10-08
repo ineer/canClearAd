@@ -12,9 +12,8 @@ jumpAds();
 
 function jumpAds() {
     var temp_video = document.querySelector('video');
-    console.log(temp_video.src);
     if (temp_video.src.indexOf('http://data.video.qiyi.com/videos/other/') > -1) {
         temp_video.playbackRate = 10;
-        setTimeout(jumpAds, 2000);
+        setTimeout(jumpAds, 1000);
     }
 }

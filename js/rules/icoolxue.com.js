@@ -1,7 +1,7 @@
 // 移除规则
 // 符合规则的元素直接移除
 var removeRule = [
-        ['#top-bottom-menu', 0],
+    ['#top-bottom-menu', 0],
 		['#player-ad', 0],
 		['div[class*="video-banner"]', 0],
 		['div[id=*"ad"]', 0]
@@ -11,6 +11,3 @@ var removeRule = [
 var replaceRule = [
 // 		['', 0]
 	];
-
-clearAd(removeRule, replaceRule);
-checkPageChange();

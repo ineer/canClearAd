@@ -61,5 +61,4 @@ var replaceRule = [
 		['div[class*="video_outer_wrap"]', 0]//[tieba.baidu.com]
 	];
 
-clearAd(removeRule, replaceRule);
 checkPageChange();

@@ -16,6 +16,3 @@ var removeRule = [
 var replaceRule = [
 		// ['', 0]
 	];
-
-clearAd(removeRule, replaceRule);
-checkPageChange();

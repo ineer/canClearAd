@@ -49,7 +49,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 	chrome.pageAction.show(tabId);
 
 });
-filter = {
+filter1 = {
 	urls: [
 		 '*://pos.baidu.com/*'
 		,'*://cpro.baidustatic.com/*'
@@ -92,23 +92,27 @@ filter = {
 		,'*://p.you.video.sina.com.cn/swf/sub/publicityPlayer20160913_V4_1_39_74.swf*'  // 新浪广告
 		,'*://static.funshion.com/market/p2p/preroll/*' // 风行广告
 		,'*://static.hd.baofeng.com/swf/player/material/swf/*' // 暴风广告
-		,'*://td.atm.youku.com/tdcm/adcontrol*' // 土豆
-		,'*://v.aty.sohu.com/v*' // 搜狐
-		,'*://acs.56.com/redirect/view/*' // 56
-		,'*://asimgs.pplive.cn/imgs/*' // PPLive
-		,'*://ugcad.pps.tv/ugc_ad.php?*' // PPS
+		,'http://stadig.ifeng.com/apvsta.js?*' // 凤凰广告
+		,'http://static.xyimg.net/*'
 
+	]
+}
+filter2 = {
+	urls: [
+		 '*://*.iqiyi.com/v_*.html'
+		,'*://www.tudou.com/*'
 	]
 }
 
 chrome.webRequest.onBeforeRequest.addListener(function(request) {
     return {cancel: true};
-}, filter, ['blocking']);
-chrome.webRequest.onBeforeRequest.addListener(function(request) {
-	for (var i in request.requestHeaders) {
-		if (request.requestHeaders[i].name == 'User-Agent') {
-			request.requestHeaders[i].value = 'Mozilla/5.0 (Linux; Android 4.4.4; Nexus 5 Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.144 Mobile Safari/537.36';
-		}
-		return {requestHeaders: request.requestHeaders};
+}, filter1, ['blocking']);
+chrome.webRequest.onBeforeSendHeaders.addListener(function(request) {
+  for (var i = 0; i < request.requestHeaders.length; ++i) {
+	if (request.requestHeaders[i].name === 'User-Agent') {
+	  request.requestHeaders[i].value = 'Mozilla/5.0 (Linux; Android 4.4.4; Nexus 5 Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.130 Mobile Safari/537.36';
+	  break;
 	}
-}, {urls: ['http://*.iqiyi.com/v_*.html*']}, ['blocking', {requestHeaders: 'requestHeaders'}]);
+  }
+  return {requestHeaders: request.requestHeaders};
+}, filter2, ['blocking', 'requestHeaders']);

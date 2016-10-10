@@ -14,7 +14,8 @@ var webRule = ['baidu.com'
 		,'csdn.net'
 		,'ncar.cc'
 		,'icoolxue.com'
-	        ,'iqiyi.com'
+	  ,'iqiyi.com'
+	  ,'youku.com'
 	];
 
 var webpage  = document.getElementById('webpage');
@@ -96,7 +97,10 @@ filter1 = {
 		,'*://static.hd.baofeng.com/swf/player/material/swf/*' // 暴风广告
 		,'http://stadig.ifeng.com/apvsta.js?*' // 凤凰广告
 		,'http://static.xyimg.net/*'
-
+    ,'http://valf.atm.youku.com/vf?*' // 优酷广告
+		,'http://r.l.youku.com/rec_ad_show?*/*'
+		,'http://p.l.youku.com/cms_operation_toollog?*'
+    
 	]
 };
 filter2 = {

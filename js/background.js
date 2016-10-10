@@ -14,8 +14,9 @@ var webRule = ['baidu.com'
 		,'csdn.net'
 		,'ncar.cc'
 		,'icoolxue.com'
-	  ,'iqiyi.com'
-	  ,'youku.com'
+		,'iqiyi.com'
+		,'youku.com'
+		,'tudou.com'
 	];
 
 var webpage  = document.getElementById('webpage');
@@ -97,7 +98,7 @@ filter1 = {
 		,'*://static.hd.baofeng.com/swf/player/material/swf/*' // 暴风广告
 		,'http://stadig.ifeng.com/apvsta.js?*' // 凤凰广告
 		,'http://static.xyimg.net/*'
-    ,'http://valf.atm.youku.com/vf?*' // 优酷广告
+    ,'http://valf.atm.youku.com/vf?*' // 优酷土豆广告
 		,'http://r.l.youku.com/rec_ad_show?*/*'
 		,'http://p.l.youku.com/cms_operation_toollog?*'
     
@@ -106,7 +107,7 @@ filter1 = {
 filter2 = {
 	urls: [
 		 '*://*.iqiyi.com/v_*.html'
-		,'*://www.tudou.com/*'
+// 		,'*://www.tudou.com/*' // 暂时停用该方法
 	]
 };
 

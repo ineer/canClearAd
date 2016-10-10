@@ -30,7 +30,8 @@ canClearAd项目仅用于学习chrome extension开发使用，请勿将其用于
 | 酷6视频 | <http://www.ku6.com/> |✓| 跳过 |
 | 凤凰视频 | <http://v.ifeng.com/> |✓| 跳过 |
 | 爱奇异视频 | <http://www.iqiyi.cn/> |✓| 加速 |
-| 土豆视频 | <http://www.tudou.com/> |✓| HTML5 || 优酷视频 | <http://www.youku.com/> |✓| 跳过 |
+| 土豆视频 | <http://www.tudou.com/> |✓| HTML5 |
+| 优酷视频 | <http://www.youku.com/> |✓| 跳过 |
 
 ## 作者
 

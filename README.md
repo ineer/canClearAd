@@ -1,4 +1,4 @@
-# canClearAd
+﻿# canClearAd
 一款全自动清除网站广告的Chrome扩展,支持通用广告,如百度推广或淘宝天猫等广告；也支持特定网站的广告清除。
 
 ## 如何安装chrome扩展
@@ -30,7 +30,7 @@ canClearAd项目仅用于学习chrome extension开发使用，请勿将其用于
 | 酷6视频 | <http://www.ku6.com/> |✓| 跳过 |
 | 凤凰视频 | <http://v.ifeng.com/> |✓| 跳过 |
 | 爱奇异视频 | <http://www.iqiyi.cn/> |✓| 加速 |
-| 土豆视频 | <http://www.tudou.com/> |✓| HTML5 |
+| 土豆视频 | <http://www.tudou.com/> |✓| HTML5 || 优酷视频 | <http://www.youku.com/> |✓| 跳过 |
 
 ## 作者
 

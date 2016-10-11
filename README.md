@@ -3,9 +3,9 @@
 
 ## 如何安装chrome扩展
 
-1. 从[github](https://github.com/ineer/canClearAd)下载本项目zip到本地；
+1. 从[github](https://github.com/ineer/canClearAd/archive/master.zip)下载本项目zip到本地；
 2. 解压zip到当前目录或选择一个合适的目录；
-3. 在Chrome的地址栏输入`chrome://extenstions`；
+3. 在Chrome的地址栏输入`chrome://extensions`；
 4. 勾选 `开发者模式`
 4. 点击`加载已解压的扩展程序`，选择解压后的目录，即可完成安装。
 

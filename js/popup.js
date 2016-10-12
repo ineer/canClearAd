@@ -13,9 +13,9 @@ var bgObj = chrome.extension.getBackgroundPage();
 function getBgText(times) {
 	--times;
 	
-	webpage.value = bgObj.document.getElementById('webpage').value;
-	adClearNum.innerText = bgObj.document.getElementById('adClearNum').innerText;
-	adTotalNum.innerText = bgObj.document.getElementById('adTotalNum').innerText;
+	webpage.value = String(bgObj.webpage);
+	adClearNum.innerText = Number(bgObj.clearNum);
+	adTotalNum.innerText = Number(bgObj.totalNum);
 	if (times < 0) {
 		return true;
 	}

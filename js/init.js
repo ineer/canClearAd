@@ -6,17 +6,72 @@
 
 // 阻止弹窗
 blockOpen();
+
 // 记录清除广告数
 var adClearNum = 0;
-var oldURL = window.location.href;
+var webRuleUrl = 'https://ineer.github.io/canClearAd-rules/webRule.json';
+var clearRuleUrl = 'https://ineer.github.io/canClearAd-rules/rules/';
+var oldURL     = window.location.href;
 
-setTimeout(function(){
-	chrome.extension.sendRequest({url: window.location.href, clearNum: 0});
-	chrome.extension.sendRequest({common: 'js/rules/common.js'});
-}, 2500); //默认2500
+// 特定网站列表
+var webRule           = [];
+var removeRule        = [];
+var replaceRule       = [];
+var commonRemoveRule  = [];
+var commonReplaceRule = [];
+
+getWebRule(function(err) {
+	if (!err) {
+		for (var i = 0; i < webRule.length; i++) {
+			if (oldURL.indexOf(webRule[i]) > -1) {
+				// 获取规则
+				getClearRule(webRule[i], function(err) {
+					if (!err) {
+						console.log(removeRule);
+						clearAd(removeRule, replaceRule);
+						clearAd(commonRemoveRule, commonReplaceRule);
+						chrome.extension.sendRequest({clearNum: adClearNum});
+						adClearNum = 0;
+					}
+				});
+			}
+		}
+	}
+});
+
+chrome.extension.sendRequest({url: oldURL, clearNum: 0});
 
 // ******************************Function******************************
-// 下面的函数将被相应的js文件调用
+// 
+function getWebRule(callback) {
+	fetch(webRuleUrl).then(function(res) {
+		if (res.status === 200) {
+			res.json().then(function(json) {
+				webRule = json.urls;
+				callback(false);
+			})
+		}
+	});
+}
+function getClearRule(url, callback) {
+	fetch(clearRuleUrl + url + '.json').then(function(res) {
+		if (res.status === 200) {
+			res.json().then(function(json) {
+				removeRule = json.removeRule;
+				replaceRule = json.replaceRule;
+			})
+		}
+	});
+	fetch(clearRuleUrl + 'common.json').then(function(res) {
+		if (res.status === 200) {
+			res.json().then(function(json) {
+				commonRemoveRule = json.removeRule;
+				commonReplaceRule = json.replaceRule;
+				callback(false);
+			})
+		}
+	});
+}
 /*
  * removeAd()，清除广告的函数。
  * 原理是根据广告规则匹配到相应的广告对象，并由父级移除自身。
@@ -69,8 +124,6 @@ function clearAd(rule1,rule2) {
 	var rule2 = rule2 || [];
 	removeAd(rule1);
 	replaceAd(rule2);
-	chrome.extension.sendRequest({clearNum: adClearNum});
-	adClearNum = 0;
 }
 function getParent(obj, num) {
 	if (obj) {
@@ -94,6 +147,19 @@ function checkPageChange() {
 	if (oldURL !== window.location.href) {
 		oldURL = window.location.href;
 		clearAd(removeRule, replaceRule);
+		clearAd(commonRemoveRule, commonReplaceRule);
+		chrome.extension.sendRequest({clearNum: adClearNum});
+		adClearNum = 0;
 	}
 	setTimeout(checkPageChange, 4000);
+}
+if (oldURL.indexOf('iqiyi') > -1) {jumpAds();}
+function jumpAds() {
+    var temp_video = document.querySelector('video');
+    if (temp_video) {
+    	if (temp_video.src.indexOf('http://data.video.qiyi.com/videos/other/') > -1) {
+			temp_video.playbackRate = 10;
+			setTimeout(jumpAds, 800);
+		}
+    }
 }

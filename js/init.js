@@ -12,6 +12,7 @@ var adClearNum = 0;
 var webRuleUrl = 'https://ineer.github.io/canClearAd-rules/webRule.json';
 var clearRuleUrl = 'https://ineer.github.io/canClearAd-rules/rules/';
 var oldURL     = window.location.href;
+var storage = chrome.storage.local;
 
 // 特定网站列表
 var webRule           = [];
@@ -20,21 +21,15 @@ var replaceRule       = [];
 var commonRemoveRule  = [];
 var commonReplaceRule = [];
 
-getWebRule(function(err) {
-	if (!err) {
-		for (var i = 0; i < webRule.length; i++) {
-			if (oldURL.indexOf(webRule[i]) > -1) {
-				// 获取规则
-				getClearRule(webRule[i], function(err) {
-					if (!err) {
-						console.log(removeRule);
-						clearAd(removeRule, replaceRule);
-						clearAd(commonRemoveRule, commonReplaceRule);
-						chrome.extension.sendRequest({clearNum: adClearNum});
-						adClearNum = 0;
-					}
-				});
-			}
+
+storage.get('canClearAdTime', function(value) {
+	if (Object.keys(value).length === 0) {
+		getRule();
+	} else {
+		if (Date.parse(new Date()) - value.canClearAdTime > 1000*60*60*24) {
+			getRule();
+		} else {
+			getFromStorage();
 		}
 	}
 });
@@ -43,6 +38,25 @@ chrome.extension.sendRequest({url: oldURL, clearNum: 0});
 
 // ******************************Function******************************
 // 
+function getRule() {
+	getWebRule(function(err) {
+		if (!err) {
+			for (var i = 0; i < webRule.length; i++) {
+				if (oldURL.indexOf(webRule[i]) > -1) {
+					// 获取规则
+					getClearRule(webRule[i], function(err) {
+						if (!err) {
+							clearAd(removeRule, replaceRule);
+							clearAd(commonRemoveRule, commonReplaceRule);
+							chrome.extension.sendRequest({clearNum: adClearNum});
+							adClearNum = 0;
+						}
+					});
+				}
+			}
+		}
+	});
+}
 function getWebRule(callback) {
 	fetch(webRuleUrl).then(function(res) {
 		if (res.status === 200) {
@@ -58,7 +72,9 @@ function getClearRule(url, callback) {
 		if (res.status === 200) {
 			res.json().then(function(json) {
 				removeRule = json.removeRule;
+				storage.set({"removeRule": json.removeRule});
 				replaceRule = json.replaceRule;
+				storage.set({"replaceRule": json.replaceRule});
 			})
 		}
 	});
@@ -66,10 +82,32 @@ function getClearRule(url, callback) {
 		if (res.status === 200) {
 			res.json().then(function(json) {
 				commonRemoveRule = json.removeRule;
+				storage.set({"commonRemoveRule": json.removeRule});
 				commonReplaceRule = json.replaceRule;
+				storage.set({"commonReplaceRule": json.removeRule});
+				var date = Date.parse(new Date());
+				storage.set({"canClearAdTime": date});
 				callback(false);
 			})
 		}
+	});
+}
+function getFromStorage() {
+	storage.get('removeRule', function(value) {
+		removeRule = value.removeRule;
+		storage.get('replaceRule', function(value) {
+			replaceRule = value.replaceRule;
+			storage.get('commonRemoveRule', function(value) {
+				commonRemoveRule = value.commonRemoveRule;
+				storage.get('commonReplaceRule', function(value) {
+					commonReplaceRule = value.commonReplaceRule;
+					clearAd(removeRule, replaceRule);
+					clearAd(commonRemoveRule, commonReplaceRule);
+					chrome.extension.sendRequest({clearNum: adClearNum});
+					adClearNum = 0;
+				});
+			});
+		});
 	});
 }
 /*

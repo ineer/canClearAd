@@ -1,5 +1,5 @@
 /*!
- * canClearAd v0.1.0
+ * 
  * Copyright 2016 Ineer
  * Licensed under MIT (https://github.com/ineer/canclearad/blob/master/LICENSE)
  */
@@ -13,6 +13,7 @@ var webRuleUrl = 'https://ineer.github.io/canClearAd-rules/webRule.json';
 var clearRuleUrl = 'https://ineer.github.io/canClearAd-rules/rules/';
 var oldURL     = window.location.href;
 var storage = chrome.storage.local;
+var getRuleTimes = 0;
 
 // 特定网站列表
 var webRule           = [];
@@ -21,17 +22,19 @@ var replaceRule       = [];
 var commonRemoveRule  = [];
 var commonReplaceRule = [];
 
+storage.get('lastUpdate', function(value) {
+	
+	var date = Date.parse(new Date());
 
-storage.get('canClearAdTime', function(value) {
-	if (Object.keys(value).length === 0) {
-		getRule();
-	} else {
-		if (Date.parse(new Date()) - value.canClearAdTime > 1000*60*60*24) {
-			getRule();
-		} else {
-			getFromStorage();
+	if (Object.keys(value).length !== 0) {
+		if (Date.parse(new Date()) - value.lastUpdate > 1000*60*60*24) {
+			storage.clear();
+			storage.set({"lastUpdate": date});
 		}
+	} else {
+		storage.set({"lastUpdate": date});
 	}
+	getRule();
 });
 
 chrome.extension.sendRequest({url: oldURL, clearNum: 0});
@@ -47,6 +50,18 @@ function getRule() {
 					getClearRule(webRule[i], function(err) {
 						if (!err) {
 							clearAd(removeRule, replaceRule);
+							getCommonRule(function(err) {
+								if (!err) {
+									clearAd(commonRemoveRule, commonReplaceRule);
+									chrome.extension.sendRequest({clearNum: adClearNum});
+									adClearNum = 0;
+								}
+							});
+						}
+					});
+				} else {
+					getCommonRule(function(err) {
+						if (!err) {
 							clearAd(commonRemoveRule, commonReplaceRule);
 							chrome.extension.sendRequest({clearNum: adClearNum});
 							adClearNum = 0;
@@ -58,56 +73,88 @@ function getRule() {
 	});
 }
 function getWebRule(callback) {
-	fetch(webRuleUrl).then(function(res) {
-		if (res.status === 200) {
-			res.json().then(function(json) {
-				webRule = json.urls;
-				callback(false);
-			})
+	storage.get('webRule', function(value) {
+		if (Object.keys(value).length === 0) {
+			fetch(webRuleUrl).then(function(res) {
+				if (res.status === 200) {
+					res.json().then(function(json) {
+						webRule = json.urls;
+						storage.set({'webRule': json.urls});
+						callback(false);
+					})
+				}
+			});
+		} else {
+			webRule = value.webRule;
+			callback(false);
 		}
 	});
+	
 }
 function getClearRule(url, callback) {
-	fetch(clearRuleUrl + url + '.json').then(function(res) {
-		if (res.status === 200) {
-			res.json().then(function(json) {
-				removeRule = json.removeRule;
-				storage.set({"removeRule": json.removeRule});
-				replaceRule = json.replaceRule;
-				storage.set({"replaceRule": json.replaceRule});
-			})
+	urlRemoveRule = url + ".removeRule";
+	urlReplaceRule = url + ".replaceRule";
+	storage.get(urlRemoveRule, function(value) {
+		if (Object.keys(value).length === 0) {
+			fetch(clearRuleUrl + url + '.json').then(function(res) {
+				if (res.status === 200) {
+					res.json().then(function(json) {
+						removeRule = json.removeRule;
+						storage.set({urlRemoveRule: json.removeRule});
+					})
+				}
+			});
+		} else {
+			removeRule = value.urlRemoveRule;
 		}
 	});
-	fetch(clearRuleUrl + 'common.json').then(function(res) {
-		if (res.status === 200) {
-			res.json().then(function(json) {
-				commonRemoveRule = json.removeRule;
-				storage.set({"commonRemoveRule": json.removeRule});
-				commonReplaceRule = json.replaceRule;
-				storage.set({"commonReplaceRule": json.removeRule});
-				var date = Date.parse(new Date());
-				storage.set({"canClearAdTime": date});
-				callback(false);
-			})
+	storage.get(urlReplaceRule, function(value) {
+		if (Object.keys(value).length === 0) {
+			fetch(clearRuleUrl + url + '.json').then(function(res) {
+				if (res.status === 200) {
+					res.json().then(function(json) {
+						replaceRule = json.replaceRule;
+						storage.set({urlReplaceRule: json.replaceRule});
+						callback(false);
+					})
+				}
+			});
+		} else {
+			replaceRule = value.urlReplaceRule;
+			callback(false);
 		}
 	});
 }
-function getFromStorage() {
-	storage.get('removeRule', function(value) {
-		removeRule = value.removeRule;
-		storage.get('replaceRule', function(value) {
-			replaceRule = value.replaceRule;
-			storage.get('commonRemoveRule', function(value) {
-				commonRemoveRule = value.commonRemoveRule;
-				storage.get('commonReplaceRule', function(value) {
-					commonReplaceRule = value.commonReplaceRule;
-					clearAd(removeRule, replaceRule);
-					clearAd(commonRemoveRule, commonReplaceRule);
-					chrome.extension.sendRequest({clearNum: adClearNum});
-					adClearNum = 0;
-				});
+function getCommonRule(callback) {
+	storage.get("commonRemoveRule", function(value) {
+		if (Object.keys(value).length === 0) {
+			fetch(clearRuleUrl + 'common.json').then(function(res) {
+				if (res.status === 200) {
+					res.json().then(function(json) {
+						commonRemoveRule = json.removeRule;
+						storage.set({"commonRemoveRule": json.removeRule});
+					})
+				}
 			});
-		});
+		} else {
+			commonRemoveRule = value.commonRemoveRule;
+		}
+	});
+	storage.get("commonReplaceRule", function(value) {
+		if (Object.keys(value).length === 0) {
+			fetch(clearRuleUrl + 'common.json').then(function(res) {
+				if (res.status === 200) {
+					res.json().then(function(json) {
+						commonReplaceRule = json.replaceRule;
+						storage.set({"commonReplaceRule": json.replaceRule});
+						callback(false);
+					})
+				}
+			});
+		} else {
+			commonReplaceRule = value.commonReplaceRule;
+			callback(false);
+		}
 	});
 }
 /*
@@ -191,7 +238,10 @@ function checkPageChange() {
 	}
 	setTimeout(checkPageChange, 4000);
 }
-if (oldURL.indexOf('iqiyi') > -1) {jumpAds();}
+
+if (oldURL.indexOf('iqiyi') > -1) {
+	setTimeout(jumpAds, 3000);
+}
 function jumpAds() {
     var temp_video = document.querySelector('video');
     if (temp_video) {

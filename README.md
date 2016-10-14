@@ -38,6 +38,10 @@ canClearAd项目仅用于学习chrome extension开发使用，请勿将其用于
 github: [ineer](https://github.com/ineer)  
 知乎: [@叶砜](http://www.zhihu.com/people/ineer)
 
+## 贡献者
+
+github: [myfreeer](https://github.com/myfreeer)
+
 ## License
 
 canClearAd is licensed under the [MIT license](http://opensource.org/licenses/MIT).

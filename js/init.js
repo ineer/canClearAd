@@ -4,16 +4,16 @@
  * Licensed under MIT (https://github.com/ineer/canclearad/blob/master/LICENSE)
  */
 
-// 阻止弹窗
-blockOpen();
-
 // 记录清除广告数
-var adClearNum = 0;
-var webRuleUrl = 'https://ineer.github.io/canClearAd-rules/webRule.json';
+var adClearNum   = 0;
+var webRuleUrl   = 'https://ineer.github.io/canClearAd-rules/webRule.json';
 var clearRuleUrl = 'https://ineer.github.io/canClearAd-rules/rules/';
-var oldURL     = window.location.href;
-var storage = chrome.storage.local;
+var oldURL       = window.location.href;
+var storage      = chrome.storage.local;
 var getRuleTimes = 0;
+var MutationObserver = window.MutationObserver
+	  || window.WebKitMutationObserver
+	  || window.MozMutationObserver;
 
 // 特定网站列表
 var webRule           = [];
@@ -38,7 +38,7 @@ storage.get('lastUpdate', function(value) {
 });
 
 chrome.extension.sendRequest({url: oldURL, clearNum: 0});
-
+setMutationObserver();
 // ******************************Function******************************
 // 
 function getRule() {
@@ -55,6 +55,7 @@ function getRule() {
 									clearAd(commonRemoveRule, commonReplaceRule);
 									chrome.extension.sendRequest({clearNum: adClearNum});
 									adClearNum = 0;
+									//setMutationObserver();
 								}
 							});
 						}
@@ -157,6 +158,20 @@ function getCommonRule(callback) {
 		}
 	});
 }
+function setMutationObserver() {
+	var observer = new MutationObserver(function(records) {
+		clearAd(removeRule, replaceRule);
+		clearAd(commonRemoveRule, commonReplaceRule);
+	});
+	var options = {
+	  'childList': true,
+	  'characterData': true,
+	  'subtree': true
+	};
+
+	observer.observe(document.body, options);
+}
+
 /*
  * removeAd()，清除广告的函数。
  * 原理是根据广告规则匹配到相应的广告对象，并由父级移除自身。
@@ -219,24 +234,6 @@ function getParent(obj, num) {
 		}
 	}
 		
-}
-function blockOpen() {
-	var script = document.createElement("script");
-	var text = document.createTextNode("window.open = function(){};");
-	script.appendChild(text);
-	document.body.appendChild(script);
-}
-// 对于某些网站，比如百度搜索，不用刷新也会自动进行搜索，无法激活清除广告动作。
-// 因此采用每4秒一次检测地址栏是否有变动来自动激活清除广告。
-function checkPageChange() {
-	if (oldURL !== window.location.href) {
-		oldURL = window.location.href;
-		clearAd(removeRule, replaceRule);
-		clearAd(commonRemoveRule, commonReplaceRule);
-		chrome.extension.sendRequest({clearNum: adClearNum});
-		adClearNum = 0;
-	}
-	setTimeout(checkPageChange, 4000);
 }
 
 if (oldURL.indexOf('iqiyi') > -1) {
